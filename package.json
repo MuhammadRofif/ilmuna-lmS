@@ -6,7 +6,7 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "preview": "nuxt preview",
-    "postinstall": "prisma generate && nuxt prepare",
+    "postinstall": "DATABASE_URL=postgresql://localhost/dummy prisma generate && nuxt prepare",
     "lint": "eslint .",
     "typecheck": "nuxt typecheck"
   },

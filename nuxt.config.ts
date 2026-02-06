@@ -16,10 +16,21 @@ export default defineNuxtConfig({
     precompile: [],
     prerender: {
       crawlLinks: false,
+      enabled: false,
       routes: [],
       ignore: ["/api"],
+      noRoutes: true,
     },
     serverAssets: [],
+  },
+
+  hooks: {
+    "nitro:prerender:route": (route) => {
+      // Skip any route that might load server side
+      if (route.route?.startsWith("/api")) {
+        return false;
+      }
+    },
   },
 
   compatibilityDate: "2025-01-15",
