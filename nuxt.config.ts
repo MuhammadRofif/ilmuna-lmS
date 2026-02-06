@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   ssr: false, // Disable SSR untuk Cloudflare Pages
-  
+
   modules: ["@nuxt/eslint", "@nuxt/ui", "nuxt-auth-utils", "@nuxt/icon"],
 
   devtools: {
@@ -12,25 +12,6 @@ export default defineNuxtConfig({
 
   routeRules: {
     "/": { prerender: false },
-  },
-
-  nitro: {
-    precompile: [],
-    prerender: {
-      crawlLinks: false,
-      enabled: false,
-      routes: [],
-      ignore: ["/api"],
-      noRoutes: true,
-    },
-    serverAssets: [],
-  },
-
-  hooks: {
-    "nitro:init": (nitro) => {
-      // Matikan prerendering sepenuhnya
-      nitro.options.prerender = { enabled: false };
-    },
   },
 
   compatibilityDate: "2025-01-15",
