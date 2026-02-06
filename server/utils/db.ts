@@ -4,13 +4,29 @@ declare global {
 
 let prismaInstance: any = null;
 let initPromise: Promise<any> | null = null;
+let initSkipped = false;
 
 export const getPrismaClient = async () => {
+  // Skip if already flagged as skipped (during prerender)
+  if (initSkipped) {
+    console.warn("Prisma init skipped during build phase");
+    return null;
+  }
+
   if (prismaInstance) return prismaInstance;
 
   if (!initPromise) {
     initPromise = (async () => {
       try {
+        // Guard: hanya load Prisma kalau bukan build phase
+        if (
+          typeof process !== "undefined" &&
+          process.env.npm_lifecycle_event === "build"
+        ) {
+          initSkipped = true;
+          return null;
+        }
+
         const { PrismaClient } = await import("@prisma/client");
         const { PrismaPg } = await import("@prisma/adapter-pg");
 
@@ -36,9 +52,5 @@ export const getPrismaClient = async () => {
 };
 
 export default {
-  get user() {
-    throw new Error(
-      "Prisma belum diinisialisasi. Gunakan await getPrismaClient() sebagai gantinya",
-    );
-  },
+  user: null,
 } as any;
