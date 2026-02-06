@@ -61,6 +61,7 @@ async function register(event: FormSubmitEvent<RegisterSchema>) {
       title: "Daftar Berhasil",
       description: "Akun Anda telah dibuat",
     });
+    await refreshSession();
     await navigateTo("/");
     console.log("Register success:", response);
     // Redirect atau tampilkan success message
