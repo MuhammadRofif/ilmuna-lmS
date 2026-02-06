@@ -31,7 +31,7 @@ export default defineEventHandler(async (event) => {
       .insert({
         name,
         email,
-        hashedPassword,
+        hashed_password: hashedPassword, // PostgreSQL converts to snake_case
       })
       .select()
       .single();

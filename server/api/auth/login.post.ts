@@ -30,9 +30,9 @@ export default defineEventHandler(async (event) => {
       });
     }
 
-    if (user.hashedPassword) {
+    if (user.hashed_password) {
       const isPasswordCorrect = await verifyPassword(
-        user.hashedPassword,
+        user.hashed_password,
         password,
       );
 

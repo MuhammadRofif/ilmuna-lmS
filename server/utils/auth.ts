@@ -3,7 +3,7 @@ import type { User } from "#auth-utils";
 export const sanitizeUser = (user: any) => {
   if (!user) return null;
 
-  const { hashedPassword, ...sanitized } = user;
+  const { hashed_password, ...sanitized } = user;
 
   return sanitized as User;
 };
