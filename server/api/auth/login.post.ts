@@ -15,7 +15,15 @@ export default defineEventHandler(async (event) => {
       .eq("email", email)
       .maybeSingle();
 
-    if (error || !user) {
+    if (error) {
+      console.error("Supabase query error:", error);
+      throw createError({
+        statusCode: 500,
+        statusMessage: "Database error",
+      });
+    }
+
+    if (!user) {
       throw createError({
         statusCode: 400,
         statusMessage: "User Does Not Exist",

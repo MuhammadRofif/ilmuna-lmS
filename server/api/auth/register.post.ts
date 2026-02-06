@@ -36,7 +36,15 @@ export default defineEventHandler(async (event) => {
       .select()
       .single();
 
-    if (error || !user) {
+    if (error) {
+      console.error("Supabase insert error:", error);
+      throw createError({
+        statusCode: 500,
+        statusMessage: "Failed to create user",
+      });
+    }
+
+    if (!user) {
       throw createError({
         statusCode: 500,
         statusMessage: "Failed to create user",
