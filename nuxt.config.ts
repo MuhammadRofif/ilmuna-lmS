@@ -27,9 +27,7 @@ export default defineNuxtConfig({
   hooks: {
     "nitro:prerender:route": (route) => {
       // Skip any route that might load server side
-      if (route.route?.startsWith("/api")) {
-        return false;
-      }
+      return false;
     },
   },
 

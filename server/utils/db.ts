@@ -5,12 +5,29 @@ declare global {
   var prisma: PrismaClient | undefined;
 }
 
-const db =
-  global.prisma ||
-  new PrismaClient({
-    adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
-  });
+const getPrismaInstance = () => {
+  if (global.prisma) {
+    return global.prisma;
+  }
 
-if (process.env.NODE_ENV !== "production") global.prisma = db;
+  try {
+    const prismaInstance = new PrismaClient({
+      adapter: new PrismaPg({
+        connectionString: process.env.DATABASE_URL || "",
+      }),
+    });
 
-export default db;
+    if (process.env.NODE_ENV !== "production") {
+      global.prisma = prismaInstance;
+    }
+
+    return prismaInstance;
+  } catch (error) {
+    // During build/prerender, PrismaClient may fail to initialize
+    // Return a dummy object to prevent crashes
+    console.warn("Failed to initialize Prisma:", error);
+    return null as any;
+  }
+};
+
+export default getPrismaInstance();
