@@ -1,9 +1,11 @@
 import { loginSchema } from "~/utils/schemas";
-import db from "~~/server/utils/db";
+import { getPrismaClient } from "~~/server/utils/db";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
   const { password, email } = loginSchema.parse(body);
+
+  const db = await getPrismaClient();
 
   const existingUser = await db.user.findUnique({
     where: { email },
