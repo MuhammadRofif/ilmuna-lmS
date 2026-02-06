@@ -1,38 +1,28 @@
 import { loginSchema } from "~/utils/schemas";
-
-// Lazy import to prevent Prisma loading during build
-let getPrismaClient: any;
-
-const loadDb = async () => {
-  if (!getPrismaClient) {
-    const dbModule = await import("~~/server/utils/db");
-    getPrismaClient = dbModule.getPrismaClient;
-  }
-  return getPrismaClient();
-};
+import supabase from "~~/server/utils/db-supabase";
 
 export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event);
     const { password, email } = loginSchema.parse(body);
 
-    const db = await loadDb();
-    if (!db) throw new Error("Database tidak tersedia");
+    // Query user dari Supabase
+    const { data: user, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("email", email)
+      .single();
 
-    const existingUser = await db.user.findUnique({
-      where: { email },
-    });
-
-    if (!existingUser) {
+    if (error || !user) {
       throw createError({
         statusCode: 400,
         statusMessage: "User Does Not Exist",
       });
     }
 
-    if (existingUser.hashedPassword) {
+    if (user.hashedPassword) {
       const isPasswordCorrect = await verifyPassword(
-        existingUser.hashedPassword,
+        user.hashedPassword,
         password,
       );
 
@@ -44,7 +34,7 @@ export default defineEventHandler(async (event) => {
       }
     }
 
-    const transformedUser = sanitizeUser(existingUser);
+    const transformedUser = sanitizeUser(user);
 
     if (transformedUser) {
       await setUserSession(event, { user: transformedUser });

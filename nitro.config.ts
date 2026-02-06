@@ -1,8 +1,3 @@
 export default defineNitroConfig({
-  prerender: {
-    enabled: false,
-    crawlLinks: false,
-    routes: [],
-  },
+  // Supabase tidak punya native bindings, jadi tidak perlu prerender disable
 });
-
