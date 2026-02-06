@@ -6,7 +6,7 @@ datasource db {
   provider = "postgresql"
 }
 
-model User {
+model Users {
   id             String   @id @default(cuid())
   name           String
   email          String   @unique
