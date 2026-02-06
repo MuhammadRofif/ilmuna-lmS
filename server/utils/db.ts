@@ -26,7 +26,7 @@ export const getPrismaClient = async () => {
 
         return prismaInstance;
       } catch (error) {
-        console.error("Failed to initialize Prisma:", error);
+        console.error("Gagal inisialisasi Prisma:", error);
         return null;
       }
     })();
@@ -35,11 +35,10 @@ export const getPrismaClient = async () => {
   return initPromise;
 };
 
-// Sync version for backwards compatibility - returns undefined until initialized
 export default {
   get user() {
     throw new Error(
-      "Prisma is not initialized. Use await getPrismaClient() instead",
+      "Prisma belum diinisialisasi. Gunakan await getPrismaClient() sebagai gantinya",
     );
   },
 } as any;

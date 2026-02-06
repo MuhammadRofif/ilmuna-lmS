@@ -26,8 +26,11 @@ export default defineNuxtConfig({
 
   hooks: {
     "nitro:prerender:route": (route) => {
-      // Skip any route that might load server side
       return false;
+    },
+    "nitro:init": (nitro) => {
+      // Sepenuhnya disable prerendering
+      nitro.options.prerender = { enabled: false, routes: [] };
     },
   },
 
