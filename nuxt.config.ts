@@ -14,6 +14,12 @@ export default defineNuxtConfig({
 
   nitro: {
     precompile: [],
+    prerender: {
+      crawlLinks: false,
+      routes: [],
+      ignore: ["/api"],
+    },
+    serverAssets: [],
   },
 
   compatibilityDate: "2025-01-15",
