@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
       .from("users")
       .select("*")
       .eq("email", email)
-      .single();
+      .maybeSingle();
 
     if (error || !user) {
       throw createError({

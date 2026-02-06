@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
       .from("users")
       .select("id")
       .eq("email", email)
-      .single();
+      .maybeSingle();
 
     if (existingUser) {
       throw createError({

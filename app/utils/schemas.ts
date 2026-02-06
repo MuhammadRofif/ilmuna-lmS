@@ -1,13 +1,13 @@
 import { z } from "zod";
 
 export const authSchema = z.object({
-  email: z.string().email({ message: "yang bener lah ngetik email " }),
+  email: z.string().email({ message: "Masukkan email yang valid" }),
   password: z.string().min(6, { message: "password minimal 6 karakter " }),
 });
 
 export const loginSchema = authSchema;
 export const registerSchema = authSchema.extend({
-  name: z.string().min(1, { message: "name harus diatas"}).max(6, { message: "Nama kelebihan aowkaokw " }),
+  name: z.string().min(1, { message: "name harus diatas"})
 });
 
 export type LoginSchema = z.output<typeof loginSchema>;
