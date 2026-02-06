@@ -1,11 +1,13 @@
 import { registerSchema } from "~/utils/schemas";
-import supabase from "~~/server/utils/db-supabase";
+import { getSupabase } from "~~/server/utils/db-supabase";
 import { sanitizeUser } from "~~/server/utils/auth";
 
 export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event);
     const { name, password, email } = registerSchema.parse(body);
+
+    const supabase = getSupabase();
 
     // Check if user sudah ada
     const { data: existingUser } = await supabase

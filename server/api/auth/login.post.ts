@@ -1,10 +1,12 @@
 import { loginSchema } from "~/utils/schemas";
-import supabase from "~~/server/utils/db-supabase";
+import { getSupabase } from "~~/server/utils/db-supabase";
 
 export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event);
     const { password, email } = loginSchema.parse(body);
+
+    const supabase = getSupabase();
 
     // Query user dari Supabase
     const { data: user, error } = await supabase
