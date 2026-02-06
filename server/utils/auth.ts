@@ -1,9 +1,9 @@
-import type { User } from "@prisma/client";
+import type { User } from "#auth-utils";
 
-export const sanitizeUser = (user: User) => {
+export const sanitizeUser = (user: any) => {
   if (!user) return null;
 
   const { hashedPassword, ...sanitized } = user;
 
-  return sanitized;
+  return sanitized as User;
 };

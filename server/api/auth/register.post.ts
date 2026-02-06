@@ -37,10 +37,14 @@ export default defineEventHandler(async (event) => {
       .single();
 
     if (error) {
-      console.error("Supabase insert error:", error);
+      console.error("Supabase insert error:", {
+        code: error.code,
+        message: error.message,
+        details: error.details,
+      });
       throw createError({
         statusCode: 500,
-        statusMessage: "Failed to create user",
+        statusMessage: `Failed to create user: ${error.message}`,
       });
     }
 
