@@ -1,5 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  ssr: false, // Disable SSR untuk Cloudflare Pages
+  
   modules: ["@nuxt/eslint", "@nuxt/ui", "nuxt-auth-utils", "@nuxt/icon"],
 
   devtools: {
@@ -25,12 +27,9 @@ export default defineNuxtConfig({
   },
 
   hooks: {
-    "nitro:prerender:route": (route) => {
-      return false;
-    },
     "nitro:init": (nitro) => {
-      // Sepenuhnya disable prerendering
-      nitro.options.prerender = { enabled: false, routes: [] };
+      // Matikan prerendering sepenuhnya
+      nitro.options.prerender = { enabled: false };
     },
   },
 
